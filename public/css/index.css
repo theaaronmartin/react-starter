@@ -5,6 +5,8 @@ body {
   line-height: 1.7;
   margin: 0;
   padding: 30px;
+  text-align: center;
+  color: #333;
 }
 
 a {
@@ -54,4 +56,19 @@ p, ul {
 
 ul {
   padding-left: 30px;
+}
+
+.cb-title {
+  font-family: 'Maven Pro', sans-serif;
+  font-size: 55px;
+  text-transform: uppercase;
+}
+
+.comment-list,
+.comment-form {
+  font-family: 'Lato', sans-serif;
+}
+
+span {
+  text-transform: lowercase;
 }
