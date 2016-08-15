@@ -10,5 +10,5 @@ app.use(logger('dev'));
 
 // Run application
 app.listen(3001, function() {
-  console.log('Blogger web is running!');
+  console.log('React starter is running!');
 });
