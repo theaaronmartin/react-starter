@@ -72,3 +72,9 @@ ul {
 span {
   text-transform: lowercase;
 }
+
+.text-box {
+  margin-top: 10px;
+  height: 30px;
+  margin-right: 10px;
+}
