@@ -1,12 +1,12 @@
 body {
   background: #fff;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Lato', Helvetica, Arial, sans-serif;
   font-size: 15px;
   line-height: 1.7;
   margin: 0;
   padding: 30px;
   color: #333;
-  text-align: center;
+  /*text-align: center;*/
 }
 
 a {
@@ -76,12 +76,47 @@ li {
   font-family: 'Lato', sans-serif;
 }
 
-span {
+/*span {
   text-transform: lowercase;
-}
+}*/
 
 .text-box {
   margin-top: 10px;
   height: 30px;
   margin-right: 10px;
+}
+
+.post {
+  text-align: center;
+}
+
+.post-user {
+  text-transform: capitalize;
+  font-size: 30px;
+  font-weight: normal;
+}
+.post-title {
+  text-transform: capitalize;
+  margin-top: 1em;
+}
+
+.post-body {
+  font-family: 'Lato', sans-serif;
+  text-align: center;
+}
+
+.brand-link,
+.brand-link:hover
+.brand-link:focus {
+  text-decoration: none;
+  color: #888;
+}
+
+.brand-link:hover {
+  color: #333;
+  text-decoration: none;
+}
+
+.author {
+  font-size: 18px;
 }
