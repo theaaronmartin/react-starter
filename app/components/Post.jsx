@@ -21,6 +21,7 @@ export default class Post extends React.Component {
     .done(function(post) {
       post.username = post.user.username;
       this.setState({ data: post });
+      console.log(this.state.data);
     }.bind(this))
     .fail(function(xhr, status, err) {
       console.error(err);
@@ -43,7 +44,9 @@ export default class Post extends React.Component {
         <h2 className="post-body">
           {this.state.data.body}
         </h2>
-         {/*<CommentBox data={this.state.data.comments}/>*/}
+        <br />
+        <br />
+         <CommentBox id={this.state.data._id}/>
         {this.props.children}
       </div>
     );

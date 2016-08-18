@@ -38165,7 +38165,7 @@
 	    key: 'getComments',
 	    value: function getComments() {
 	      _jquery2.default.ajax({
-	        url: _config2.default.url + '/posts/' + this.props.params.id,
+	        url: _config2.default.url + '/posts/' + this.props.id,
 	        dataType: 'json',
 	        cache: false
 	      }).done(function (post) {
@@ -38173,13 +38173,12 @@
 	      }.bind(this)).fail(function (xhr, status, err) {
 	        console.error(err);
 	      }.bind(this));
-	      console.log(this.props);
 	    }
 	  }, {
 	    key: 'handleCommentSubmit',
 	    value: function handleCommentSubmit(comment) {
 	      _jquery2.default.ajax({
-	        url: _config2.default.url + '/posts/' + this.props.params.id + '/comments/',
+	        url: _config2.default.url + '/posts/' + this.props.id + '/comments/',
 	        dataType: 'json',
 	        type: 'POST',
 	        contentType: 'application/json',
@@ -38194,7 +38193,6 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.getComments();
-	      console.log(this.props);
 	      // setInterval(this.getComments, this.props.pollInterval);
 	    }
 	  }, {
@@ -38466,6 +38464,7 @@
 	      }).done(function (post) {
 	        post.username = post.user.username;
 	        this.setState({ data: post });
+	        console.log(this.state.data);
 	      }.bind(this)).fail(function (xhr, status, err) {
 	        console.error(err);
 	      }.bind(this));
@@ -38502,6 +38501,9 @@
 	          { className: 'post-body' },
 	          this.state.data.body
 	        ),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement('br', null),
+	        _react2.default.createElement(_CommentBox2.default, { id: this.state.data._id }),
 	        this.props.children
 	      );
 	    }

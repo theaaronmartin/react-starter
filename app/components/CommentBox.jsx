@@ -16,7 +16,7 @@ export default class CommentBox extends React.Component {
 
   getComments() {
     $.ajax({
-      url: config.url + '/posts/' + this.props.params.id,
+      url: config.url + '/posts/' + this.props.id,
       dataType: 'json',
       cache: false
     })
@@ -26,12 +26,11 @@ export default class CommentBox extends React.Component {
     .fail(function(xhr, status, err) {
       console.error(err);
     }.bind(this));
-    console.log(this.props);
   }
 
   handleCommentSubmit(comment) {
     $.ajax({
-        url: config.url + '/posts/' + this.props.params.id + '/comments/',
+        url: config.url + '/posts/' + this.props.id + '/comments/',
         dataType: 'json',
         type: 'POST',
         contentType: 'application/json',
@@ -47,7 +46,6 @@ export default class CommentBox extends React.Component {
 
   componentDidMount() {
       this.getComments();
-      console.log(this.props);
       // setInterval(this.getComments, this.props.pollInterval);
     }
 
