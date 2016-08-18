@@ -37924,11 +37924,11 @@
 	
 	var _CommentList2 = _interopRequireDefault(_CommentList);
 	
-	var _Post = __webpack_require__(/*! ./Post.jsx */ 245);
+	var _Post = __webpack_require__(/*! ./Post.jsx */ 246);
 	
 	var _Post2 = _interopRequireDefault(_Post);
 	
-	var _PostBox = __webpack_require__(/*! ./PostBox.jsx */ 246);
+	var _PostBox = __webpack_require__(/*! ./PostBox.jsx */ 247);
 	
 	var _PostBox2 = _interopRequireDefault(_PostBox);
 	
@@ -37936,7 +37936,7 @@
 	
 	var _PostList2 = _interopRequireDefault(_PostList);
 	
-	var _Home = __webpack_require__(/*! ./Home.jsx */ 249);
+	var _Home = __webpack_require__(/*! ./Home.jsx */ 250);
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
@@ -37946,11 +37946,8 @@
 	  _reactRouter.Route,
 	  { path: '/', component: _App2.default },
 	  _react2.default.createElement(_reactRouter.Route, { path: '/home', component: _Home2.default }),
-	  _react2.default.createElement(
-	    _reactRouter.Route,
-	    { path: '/posts', component: _PostBox2.default },
-	    _react2.default.createElement(_reactRouter.Route, { path: '/posts/:id', component: _Post2.default })
-	  )
+	  _react2.default.createElement(_reactRouter.Route, { path: '/posts', component: _PostBox2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '/posts/:id', component: _Post2.default })
 	);
 
 /***/ },
@@ -38138,6 +38135,10 @@
 	
 	var _CommentForm2 = _interopRequireDefault(_CommentForm);
 	
+	var _config = __webpack_require__(/*! ./config.jsx */ 245);
+	
+	var _config2 = _interopRequireDefault(_config);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38164,7 +38165,7 @@
 	    key: 'getComments',
 	    value: function getComments() {
 	      _jquery2.default.ajax({
-	        url: this.props.url,
+	        url: _config2.default.url + '/posts/' + this.props.params.id,
 	        dataType: 'json',
 	        cache: false
 	      }).done(function (post) {
@@ -38172,12 +38173,13 @@
 	      }.bind(this)).fail(function (xhr, status, err) {
 	        console.error(err);
 	      }.bind(this));
+	      console.log(this.props);
 	    }
 	  }, {
 	    key: 'handleCommentSubmit',
 	    value: function handleCommentSubmit(comment) {
 	      _jquery2.default.ajax({
-	        url: this.props.url + '/comments/',
+	        url: _config2.default.url + '/posts/' + this.props.params.id + '/comments/',
 	        dataType: 'json',
 	        type: 'POST',
 	        contentType: 'application/json',
@@ -38192,6 +38194,7 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.getComments();
+	      console.log(this.props);
 	      // setInterval(this.getComments, this.props.pollInterval);
 	    }
 	  }, {
@@ -38201,11 +38204,11 @@
 	        'div',
 	        { className: 'comment-box' },
 	        _react2.default.createElement(
-	          'h1',
+	          'h3',
 	          { className: 'cb-title' },
 	          'Comments'
 	        ),
-	        _react2.default.createElement(_CommentList2.default, { data: this.state.data }),
+	        _react2.default.createElement(_CommentList2.default, { data: this.state.data.comments }),
 	        _react2.default.createElement(_CommentForm2.default, { onCommentSubmit: this.handleCommentSubmit })
 	      );
 	    }
@@ -38385,6 +38388,24 @@
 
 /***/ },
 /* 245 */
+/*!***********************************!*\
+  !*** ./app/components/config.jsx ***!
+  \***********************************/
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var config = {
+	  url: "http://localhost:3000"
+	};
+	
+	exports.default = config;
+
+/***/ },
+/* 246 */
 /*!*********************************!*\
   !*** ./app/components/Post.jsx ***!
   \*********************************/
@@ -38402,9 +38423,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _jquery = __webpack_require__(/*! jquery */ 238);
+	
+	var _jquery2 = _interopRequireDefault(_jquery);
+	
 	var _CommentBox = __webpack_require__(/*! ./CommentBox.jsx */ 242);
 	
 	var _CommentBox2 = _interopRequireDefault(_CommentBox);
+	
+	var _config = __webpack_require__(/*! ./config.jsx */ 245);
+	
+	var _config2 = _interopRequireDefault(_config);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -38417,13 +38446,36 @@
 	var Post = function (_React$Component) {
 	  _inherits(Post, _React$Component);
 	
-	  function Post() {
+	  function Post(props) {
 	    _classCallCheck(this, Post);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Post).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Post).call(this, props));
+	
+	    _this.state = { data: {} };
+	    _this.getPost = _this.getPost.bind(_this);
+	    return _this;
 	  }
 	
 	  _createClass(Post, [{
+	    key: 'getPost',
+	    value: function getPost() {
+	      _jquery2.default.ajax({
+	        url: _config2.default.url + '/posts/' + this.props.params.id,
+	        dataType: 'json',
+	        cache: false
+	      }).done(function (post) {
+	        post.username = post.user.username;
+	        this.setState({ data: post });
+	      }.bind(this)).fail(function (xhr, status, err) {
+	        console.error(err);
+	      }.bind(this));
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.getPost();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -38432,7 +38484,7 @@
 	        _react2.default.createElement(
 	          'h2',
 	          { className: 'post-title' },
-	          this.props.title
+	          this.state.data.title
 	        ),
 	        _react2.default.createElement(
 	          'h2',
@@ -38440,16 +38492,17 @@
 	          _react2.default.createElement(
 	            'span',
 	            { className: 'author' },
-	            'By:'
+	            'Written By:'
 	          ),
 	          ' ',
-	          this.props.user
+	          this.state.data.username
 	        ),
 	        _react2.default.createElement(
 	          'h2',
 	          { className: 'post-body' },
-	          this.props.body
+	          this.state.data.body
 	        ),
+	        _react2.default.createElement(_CommentBox2.default, { data: this.state.data.comments }),
 	        this.props.children
 	      );
 	    }
@@ -38461,7 +38514,7 @@
 	exports.default = Post;
 
 /***/ },
-/* 246 */
+/* 247 */
 /*!************************************!*\
   !*** ./app/components/PostBox.jsx ***!
   \************************************/
@@ -38483,7 +38536,7 @@
 	
 	var _jquery2 = _interopRequireDefault(_jquery);
 	
-	var _config = __webpack_require__(/*! ./config.jsx */ 247);
+	var _config = __webpack_require__(/*! ./config.jsx */ 245);
 	
 	var _config2 = _interopRequireDefault(_config);
 	
@@ -38552,24 +38605,6 @@
 	exports.default = PostBox;
 
 /***/ },
-/* 247 */
-/*!***********************************!*\
-  !*** ./app/components/config.jsx ***!
-  \***********************************/
-/***/ function(module, exports) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var config = {
-	  url: "http://localhost:3000"
-	};
-	
-	exports.default = config;
-
-/***/ },
 /* 248 */
 /*!*************************************!*\
   !*** ./app/components/PostList.jsx ***!
@@ -38590,9 +38625,9 @@
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 175);
 	
-	var _Post = __webpack_require__(/*! ./Post.jsx */ 245);
+	var _PostListItem = __webpack_require__(/*! ./PostListItem.jsx */ 249);
 	
-	var _Post2 = _interopRequireDefault(_Post);
+	var _PostListItem2 = _interopRequireDefault(_PostListItem);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -38614,9 +38649,9 @@
 	  _createClass(PostList, [{
 	    key: 'render',
 	    value: function render() {
-	      var postNodes = this.props.data.map(function (post) {
+	      var postItemNodes = this.props.data.map(function (post) {
 	        return _react2.default.createElement(
-	          _Post2.default,
+	          _PostListItem2.default,
 	          { title: post.title, user: post.user.username, key: post._id },
 	          _react2.default.createElement(
 	            _reactRouter.Link,
@@ -38628,7 +38663,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'post-list' },
-	        postNodes
+	        postItemNodes
 	      );
 	    }
 	  }]);
@@ -38640,6 +38675,78 @@
 
 /***/ },
 /* 249 */
+/*!*****************************************!*\
+  !*** ./app/components/PostListItem.jsx ***!
+  \*****************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _config = __webpack_require__(/*! ./config.jsx */ 245);
+	
+	var _config2 = _interopRequireDefault(_config);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Post = function (_React$Component) {
+	  _inherits(Post, _React$Component);
+	
+	  function Post() {
+	    _classCallCheck(this, Post);
+	
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Post).apply(this, arguments));
+	  }
+	
+	  _createClass(Post, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'post' },
+	        _react2.default.createElement(
+	          'h2',
+	          { className: 'post-title' },
+	          this.props.title
+	        ),
+	        _react2.default.createElement(
+	          'h2',
+	          { className: 'post-user' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'author' },
+	            'By:'
+	          ),
+	          ' ',
+	          this.props.user
+	        ),
+	        this.props.children
+	      );
+	    }
+	  }]);
+	
+	  return Post;
+	}(_react2.default.Component);
+	
+	exports.default = Post;
+
+/***/ },
+/* 250 */
 /*!*********************************!*\
   !*** ./app/components/Home.jsx ***!
   \*********************************/

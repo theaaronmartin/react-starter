@@ -3,6 +3,7 @@ import $ from 'jquery';
 
 import CommentList from './CommentList.jsx';
 import CommentForm from './CommentForm.jsx';
+import config from './config.jsx';
 
 export default class CommentBox extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ export default class CommentBox extends React.Component {
 
   getComments() {
     $.ajax({
-      url: this.props.url,
+      url: config.url + '/posts/' + this.props.params.id,
       dataType: 'json',
       cache: false
     })
@@ -25,11 +26,12 @@ export default class CommentBox extends React.Component {
     .fail(function(xhr, status, err) {
       console.error(err);
     }.bind(this));
+    console.log(this.props);
   }
 
   handleCommentSubmit(comment) {
     $.ajax({
-        url: this.props.url + '/comments/',
+        url: config.url + '/posts/' + this.props.params.id + '/comments/',
         dataType: 'json',
         type: 'POST',
         contentType: 'application/json',
@@ -45,14 +47,15 @@ export default class CommentBox extends React.Component {
 
   componentDidMount() {
       this.getComments();
+      console.log(this.props);
       // setInterval(this.getComments, this.props.pollInterval);
     }
 
   render() {
     return (
       <div className="comment-box">
-        <h1 className="cb-title">Comments</h1>
-        <CommentList data={this.state.data} />
+        <h3 className="cb-title">Comments</h3>
+        <CommentList data={this.state.data.comments} />
         <CommentForm onCommentSubmit={this.handleCommentSubmit} />
       </div>
     );

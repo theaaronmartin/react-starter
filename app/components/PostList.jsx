@@ -1,20 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router';
 
-import Post from './Post.jsx';
+import PostListItem from './PostListItem.jsx';
 
 export default class PostList extends React.Component {
   render() {
-    var postNodes = this.props.data.map(function(post) {
+    var postItemNodes = this.props.data.map(function(post) {
       return (
-        <Post title={post.title} user={post.user.username} key={post._id}>
+        <PostListItem title={post.title} user={post.user.username} key={post._id}>
           <Link to={"/posts/" + post._id}>View Post</Link>
-        </Post>
+        </PostListItem>
       );
     });
     return (
       <div className="post-list">
-        {postNodes}
+        {postItemNodes}
       </div>
     );
   }

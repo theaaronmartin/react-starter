@@ -13,8 +13,7 @@ import Home from './Home.jsx';
 module.exports = (
   <Route path="/" component={App}>
     <Route path="/home" component={Home}></Route>
-    <Route path="/posts" component={PostBox}>
-      <Route path="/posts/:id" component={Post}></Route>
-    </Route>
+    <Route path="/posts" component={PostBox}></Route>
+    <Route path="/posts/:id" component={Post}></Route>
   </Route>
 );
