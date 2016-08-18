@@ -38262,7 +38262,7 @@
 	  _createClass(CommentList, [{
 	    key: 'render',
 	    value: function render() {
-	      var commentNodes = this.props.data.comments.map(function (comment) {
+	      var commentNodes = this.props.data.map(function (comment) {
 	        return _react2.default.createElement(
 	          _Comment2.default,
 	          { user: comment.user, key: comment._id },
@@ -38502,7 +38502,6 @@
 	          { className: 'post-body' },
 	          this.state.data.body
 	        ),
-	        _react2.default.createElement(_CommentBox2.default, { data: this.state.data.comments }),
 	        this.props.children
 	      );
 	    }

@@ -43,7 +43,7 @@ export default class Post extends React.Component {
         <h2 className="post-body">
           {this.state.data.body}
         </h2>
-         <CommentBox data={this.state.data.comments}/>
+         {/*<CommentBox data={this.state.data.comments}/>*/}
         {this.props.children}
       </div>
     );
